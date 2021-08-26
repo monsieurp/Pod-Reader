@@ -1,0 +1,12 @@
+#!/usr/bin/env perl
+use warnings;
+use autodie;
+use strict;
+use 5.10.1;
+
+if ($ENV{PAGER} =~ m/more/) {
+    croak "$0 doesn't work with 'more' set as a PAGER.\n"
+    . "Please switch to a different one (less or most for instance).";
+}
+
+use Pod::Reader;
