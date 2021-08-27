@@ -4,9 +4,45 @@ use autodie;
 use strict;
 use 5.10.1;
 
+use Carp qw#croak#;
+use Getopt::Long;
+use Pod::Usage;
+
+=head1 NAME
+
+podcurses - A curses TUI to read Perl POD from.
+
+podcurses is curses TUI that displays a list of Perl modules. When a module is
+selected, the perldoc(1) command is called to display its documentation.
+
+=cut
+
+our $VERSION = '1.000';
+
 if ($ENV{PAGER} =~ m/more/) {
     croak "$0 doesn't work with 'more' set as a PAGER.\n"
     . "Please switch to a different one (less or most for instance).";
 }
 
+my $opts = {};
+my @args = ('help|h', 'man|m');
+
+GetOptions($opts, @args);
+
+$opts->{help} and pod2usage(verbose => 1, exitval => -1);
+$opts->{man}  and pod2usage(verbose => 2, exitval => -1);
+
+my @searchdirs = ();
+
+if (scalar @ARGV > 0) {
+    push @searchdirs, grep { -d $_ } @ARGV;
+} else {
+    local @INC = @INC;
+    pop @INC if $INC[-1] eq '.';
+    push @searchdirs, grep { -d $_ } @INC;
+}
+
 use Pod::Reader;
+Pod::Reader->new({
+     searchdirs => \@searchdirs
+})->run()
