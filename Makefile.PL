@@ -18,10 +18,13 @@ WriteMakefile(
 		'Test::More' => '0',
 	},
 	PREREQ_PM => {
-		'Curses::UI'   => '0.9609',
-		'Curses'       => '1.36',
-		'Getopt::Long' => '0',
-		'Pod::Usage'   => '0'
+        'Curses::UI'      => '0.9609',
+        'Curses'          => '1.36',
+        'Carp'            => '0',
+        'File::Find'      => '0',
+        'Getopt::Long'    => '0',
+        'Pod::Usage'      => '0',
+        'Term::ANSIColor' => '0'
 	},
 	TEST_REQUIRES => {
 		'Test::More'    => '0',
