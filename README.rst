@@ -1,6 +1,6 @@
 podreader - A curses TUI to read Perl POD from.
 
-podreader is curses TUI that displays a list of Perl modules. When a module is
+podreader is a curses TUI that displays a list of Perl modules. When a module is
 selected, the perldoc(1) command is called to display its documentation.
 
 ********
