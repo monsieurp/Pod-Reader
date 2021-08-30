@@ -1,0 +1,8 @@
+bin/podreader
+Changes
+lib/Pod/Reader.pm
+LICENSE
+Makefile.PL
+MANIFEST			This list of files
+README.rst
+t/00-compile.t
