@@ -7,6 +7,8 @@ use 5.10.1;
 use vars qw#*name#;
 *name   = *File::Find::name;
 
+our $VERSION = '1.000';
+
 my $cui;
 
 # Class constructor.
@@ -40,9 +42,11 @@ sub run {
 
     my $main = $cui->add('main', 'Window');
 
+    my $header_text = "PodReader v$VERSION";
+
     my $header = $main->add(
         'header', 'Label',
-        -text          => 'PodReader',
+        -text          => $header_text,
         -textalignment => 'left',
         -bold          => 1,
         -fg            => 'white',
@@ -58,9 +62,14 @@ sub run {
         -padbottom => 3
     );
 
+    my $dotpms = @dotpms;
+
+    my $top_label_text = "$dotpms Perl modules found.\n"
+    . 'Please select a Perl module in the list below to read documentation from:';
+
     my $top_label = $main_window->add(
         'top_label', 'Label',
-        -text    => 'Please select a Perl module in the list below to read documentation from:',
+        -text    => $top_label_text,
         -padleft => 1,
         -fg      => 'blue',
         -width   => -1
@@ -68,7 +77,7 @@ sub run {
 
     my $main_listbox = $main_window->add(
         'main_listbox', 'Listbox',
-        -y          => 2,
+        -y          => 3,
         -padleft    => 1,
         -padright   => 1,
         -padbottom  => 0,
