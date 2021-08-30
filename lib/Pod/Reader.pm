@@ -7,12 +7,9 @@ use 5.10.1;
 use vars qw#*name#;
 *name   = *File::Find::name;
 
-my $cui = Curses::UI->new(
-    -color_support => 1,
-    -clear_on_exit => 1,
-    -mouse_support => 1
-);
+my $cui;
 
+# Class constructor.
 sub new {
     my ($class, $args) = @_;
 
@@ -20,9 +17,16 @@ sub new {
         searchdirs => $args->{searchdirs}
     };
 
+    $cui = Curses::UI->new(
+        -color_support => 1,
+        -clear_on_exit => 1,
+        -mouse_support => 1
+    );
+
     return bless $args, $class;
 }
 
+# Build the main UI.
 sub run {
     my $this = shift;
 
@@ -108,6 +112,7 @@ sub run {
     $cui->mainloop;
 }
 
+# UI to confirm exit.
 sub exit_dialog {
     my $rc = $cui->dialog(
         -title   => 'Quit PodReader?',
