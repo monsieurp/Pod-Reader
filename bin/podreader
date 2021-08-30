@@ -4,18 +4,14 @@ use autodie;
 use strict;
 use 5.10.1;
 
+use Term::ANSIColor qw#colored#;
 use Carp qw#croak#;
 use Getopt::Long;
 use Pod::Usage;
 
-=head1 NAME
+use constant E_ERROR => colored( 'ERROR', 'red' );
 
-podcurses - A curses TUI to read Perl POD from.
-
-podcurses is curses TUI that displays a list of Perl modules. When a module is
-selected, the perldoc(1) command is called to display its documentation.
-
-=cut
+use lib './lib';
 
 our $VERSION = '1.000';
 
@@ -29,12 +25,21 @@ my @args = ('help|h', 'man|m');
 
 GetOptions($opts, @args);
 
-$opts->{help} and pod2usage(verbose => 1, exitval => -1);
-$opts->{man}  and pod2usage(verbose => 2, exitval => -1);
+$opts->{help} and pod2usage(-verbose => 1, exitval => -1);
+$opts->{man}  and pod2usage(-verbose => 2, exitval => -1);
 
 my @searchdirs = ();
 
 if (scalar @ARGV > 0) {
+    for my $dir (@ARGV) {
+        if (! -d $dir) {
+            pod2usage(
+                -msg     => E_ERROR . "! $dir is not a directory!\n",
+                -verbose => 1,
+                -exitval => -1
+            );
+        }
+    }
     push @searchdirs, grep { -d $_ } @ARGV;
 } else {
     local @INC = @INC;
@@ -43,6 +48,97 @@ if (scalar @ARGV > 0) {
 }
 
 use Pod::Reader;
+
 Pod::Reader->new({
      searchdirs => \@searchdirs
-})->run()
+})->run();
+
+__END__
+
+=head1 NAME
+
+podreader - A curses TUI to read Perl POD from.
+
+podreader is curses TUI that displays a list of Perl modules. When a module is
+selected, the perldoc(1) command is called to display its documentation.
+
+=cut
+
+=head1 VERSION
+
+Version 1.000
+
+=cut
+
+
+=head1 SYNOPSIS
+
+podreader [-hm] [/some /directory ...]
+
+  -m|--man          display man page
+  -h|--help         display help
+
+  [directory list]  search .pm files in said directories (optional)
+
+  podreader looks for .pm files in @INC by default.
+
+=cut
+
+=head1 KEYSTROKES
+
+Use the following keystrokes to navigate around the UI.
+
+=over 5
+
+=item Up/Down
+
+Move the cursor up or down.
+
+=item Enter/Space
+
+Confirm selection.
+
+=item Ctrl+q
+
+Quit the UI.
+
+=item /
+
+Small search box to look for an item in the list. Type a string and hit enter.
+
+=item n or N
+
+Go to the next/previous result in the list (if any).
+
+=back
+
+=cut
+
+=head1 MOUSE
+
+Mouse support is enabled and should work. Click on a file in the list to
+display its documentation (if it exists of course).
+
+=cut
+
+=head1 SEE ALSO
+
+perldoc(1)
+
+=cut
+
+=head1 AUTHOR
+
+Patrice Clement <monsieurp at cpan.org>
+
+=cut
+
+=head1 LICENSE AND COPYRIGHT
+
+This software is copyright (c) 2021 by Patrice Clement.
+
+This is free software, licensed under the (three-clause) BSD License.
+
+See the LICENSE file.
+
+=cut
