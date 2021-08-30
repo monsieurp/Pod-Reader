@@ -9,11 +9,9 @@ use Carp qw#croak#;
 use Getopt::Long;
 use Pod::Usage;
 
-use constant E_ERROR => colored( 'ERROR', 'red' );
+use constant E_ERROR => colored('ERROR', 'red');
 
 use lib './lib';
-
-our $VERSION = '1.000';
 
 if ($ENV{PAGER} =~ m/more/) {
     croak "$0 doesn't work with 'more' set as a PAGER.\n"
@@ -59,7 +57,7 @@ __END__
 
 podreader - A curses TUI to read Perl POD from.
 
-podreader is curses TUI that displays a list of Perl modules. When a module is
+podreader is a curses TUI that displays a list of Perl modules. When a module is
 selected, the perldoc(1) command is called to display its documentation.
 
 =cut
@@ -73,12 +71,12 @@ Version 1.000
 
 =head1 SYNOPSIS
 
-podreader [-hm] [/some /directory ...]
+podreader [-hm] [/dir1 /dir2 ...]
 
   -m|--man          display man page
   -h|--help         display help
 
-  [directory list]  search .pm files in said directories (optional)
+  [directory list]  search .pm files in given directories (optional)
 
   podreader looks for .pm files in @INC by default.
 
@@ -90,11 +88,11 @@ Use the following keystrokes to navigate around the UI.
 
 =over 5
 
-=item Up/Down
+=item Up/Down/j/k
 
 Move the cursor up or down.
 
-=item Enter/Space
+=item Enter/Space/l
 
 Confirm selection.
 
@@ -104,7 +102,7 @@ Quit the UI.
 
 =item /
 
-Small search box to look for an item in the list. Type a string and hit enter.
+Small search box to look for a module in the list. Type a string and hit enter.
 
 =item n or N
 
