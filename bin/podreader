@@ -11,8 +11,6 @@ use Pod::Usage;
 
 use constant E_ERROR => colored('ERROR', 'red');
 
-use lib './lib';
-
 if ($ENV{PAGER} =~ m/more/) {
     croak "$0 doesn't work with 'more' set as a PAGER.\n"
     . "Please switch to a different one (less or most for instance).";
