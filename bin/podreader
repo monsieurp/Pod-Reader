@@ -62,7 +62,7 @@ selected, the perldoc(1) command is called to display its documentation.
 
 =head1 VERSION
 
-Version 1.000
+Version 1.020
 
 =cut
 

@@ -7,7 +7,7 @@ use 5.10.1;
 use vars qw#*name#;
 *name   = *File::Find::name;
 
-our $VERSION = '1.010';
+our $VERSION = '1.020';
 
 my $cui;
 
